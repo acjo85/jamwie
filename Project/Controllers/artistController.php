@@ -10,26 +10,29 @@ use Ionian\Database\Database;
  * For example, http://localhost/jamwie/artist/name/ARTISTNAME gives info about the specific artist.
  */
 
+
 class artistController extends Controller {
+
     /**
      * jamwie/artist/all generates all artists and the events they have planned.
      */
-    public function allAction() {
+   public function allAction() {
         $db = Database::get();
         $stm = $db->prepare("SELECT * FROM artists");
         $stm->execute();
-        $res = $stm->fetchAll(Database::FETCH_ASSOC);
-        $artistIDs = array();
+        $res = $stm->fetchAll();
+        /*$artistIDs = array();
         $artists = array();
         foreach ($res as $artist) {
             $artistIDs[] = (int)$artist['artist_id'];
             $artists[$artist['artist_id']] = $artist;
             $artists[$artist['artist_id']]['events'] = array();
+
         }
         $stmt = $db->prepare('SELECT * FROM event_artists JOIN events ON event_artists.event_id = events.event_id
         JOIN venues ON events.venue_id = venues.venue_id WHERE event_artists.artist_id IN ('.implode(',', $artistIDs).')');
         $stmt->execute();
-        $results = $stmt->fetchAll(Database::FETCH_ASSOC);
+        $results = $stmt->fetchAll();
         foreach ($results as $result) {
             $artists[$result['artist_id']]['events'][] = array('event_id' => $result['event_id'],'event_org_id' => $result['event_org_id'],
                 'event_title' => $result['event_title'],'event_type' => $result['event_type'], 'event_date' => $result['event_date'],
@@ -37,9 +40,11 @@ class artistController extends Controller {
                 'event_ticket_uri' => $result['event_ticket_uri'], 'venue_id' => $result['venue_id'], 'venue_org_id' => $result['venue_org_id'],
                 'venue_name' => $result['venue_name'], 'venue_address' => $result['venue_address'], 'venue_city' => $result['venue_city'],
                 'venue_latlng' => $result['venue_latlng'], 'venue_map' => $result['venue_map'],'venue_map_image' => $result['venue_map_image'],);
-        }
-        $this->outputJSON("All artists and their events", $artists);
+        }*/
+        $this->outputJSON("All artists and their events", $res);
     }
+
+
     /**
      * jamwie/artist/name/$name
      * Parameter $name must be set. Get all upcoming events for the artist '$name'.
@@ -49,9 +54,8 @@ class artistController extends Controller {
         $stm = $db->prepare("SELECT * FROM artists WHERE `artist_name` = :name");
         $stm->bindParam(':name', $name, Database::PARAM_STR);
         $stm->execute();
-        $res = $stm->fetchAll(Database::FETCH_ASSOC);
-
-        $artistIDs = array();
+        $res = $stm->fetchAll();
+        /*$artistIDs = array();
         $artists = array();
         foreach ($res as $artist) {
             $artistIDs[] = (int)$artist['artist_id'];
@@ -61,7 +65,7 @@ class artistController extends Controller {
         $stmt = $db->prepare('SELECT * FROM event_artists JOIN events ON event_artists.event_id = events.event_id
         JOIN venues ON events.venue_id = venues.venue_id WHERE event_artists.artist_id IN ('.implode(',', $artistIDs).')');
         $stmt->execute();
-        $results = $stmt->fetchAll(Database::FETCH_ASSOC);
+        $results = $stmt->fetchAll();
         foreach ($results as $result) {
             $artists[$result['artist_id']]['events'][] = array('event_id' => $result['event_id'],'event_org_id' => $result['event_org_id'],
                 'event_title' => $result['event_title'],'event_type' => $result['event_type'], 'event_date' => $result['event_date'],
@@ -69,8 +73,8 @@ class artistController extends Controller {
                 'event_ticket_uri' => $result['event_ticket_uri'], 'venue_id' => $result['venue_id'], 'venue_org_id' => $result['venue_org_id'],
                 'venue_name' => $result['venue_name'], 'venue_address' => $result['venue_address'], 'venue_city' => $result['venue_city'],
                 'venue_latlng' => $result['venue_latlng'], 'venue_map' => $result['venue_map'],'venue_map_image' => $result['venue_map_image'],);
-        }
-        $this->outputJSON("All available for $name", $artists);
+        }*/
+        $this->outputJSON("All available for $name", $res);
     }
 
     /**
@@ -82,9 +86,8 @@ class artistController extends Controller {
         $stm = $db->prepare("SELECT * FROM artists WHERE artist_id = :id");
         $stm->bindParam(':id', $id, Database::PARAM_STR);
         $stm->execute();
-        $res = $stm->fetchAll(Database::FETCH_ASSOC);
-
-        $artistIDs = array();
+        $res = $stm->fetchAll();
+        /*$artistIDs = array();
         $artists = array();
         foreach ($res as $artist) {
             $artistIDs[] = (int)$artist['artist_id'];
@@ -94,7 +97,7 @@ class artistController extends Controller {
         $stmt = $db->prepare('SELECT * FROM event_artists JOIN events ON event_artists.event_id = events.event_id
         JOIN venues ON events.venue_id = venues.venue_id WHERE event_artists.artist_id IN ('.implode(',', $artistIDs).')');
         $stmt->execute();
-        $results = $stmt->fetchAll(Database::FETCH_ASSOC);
+        $results = $stmt->fetchAll();
         foreach ($results as $result) {
             $artists[$result['artist_id']]['events'][] = array('event_id' => $result['event_id'],'event_org_id' => $result['event_org_id'],
                 'event_title' => $result['event_title'],'event_type' => $result['event_type'], 'event_date' => $result['event_date'],
@@ -102,8 +105,8 @@ class artistController extends Controller {
                 'event_ticket_uri' => $result['event_ticket_uri'], 'venue_id' => $result['venue_id'], 'venue_org_id' => $result['venue_org_id'],
                 'venue_name' => $result['venue_name'], 'venue_address' => $result['venue_address'], 'venue_city' => $result['venue_city'],
                 'venue_latlng' => $result['venue_latlng'], 'venue_map' => $result['venue_map'],'venue_map_image' => $result['venue_map_image'],);
-        }
-        $this->outputJSON("All available for artist ID $id", $artists);
+        }*/
+        $this->outputJSON("All available for artist ID $id", $res);
     }
     /**
      * jamwie/artist/orgid/$id
@@ -114,9 +117,8 @@ class artistController extends Controller {
         $stm = $db->prepare("SELECT * FROM artists WHERE artist_org_id = :id");
         $stm->bindParam(':id', $id, Database::PARAM_STR);
         $stm->execute();
-        $res = $stm->fetchAll(Database::FETCH_ASSOC);
-
-        $artistIDs = array();
+        $res = $stm->fetchAll();
+        /*$artistIDs = array();
         $artists = array();
         foreach ($res as $artist) {
             $artistIDs[] = (int)$artist['artist_id'];
@@ -126,7 +128,7 @@ class artistController extends Controller {
         $stmt = $db->prepare('SELECT * FROM event_artists JOIN events ON event_artists.event_id = events.event_id
         JOIN venues ON events.venue_id = venues.venue_id WHERE event_artists.artist_id IN ('.implode(',', $artistIDs).')');
         $stmt->execute();
-        $results = $stmt->fetchAll(Database::FETCH_ASSOC);
+        $results = $stmt->fetchAll();
         foreach ($results as $result) {
             $artists[$result['artist_id']]['events'][] = array('event_id' => $result['event_id'],'event_org_id' => $result['event_org_id'],
                 'event_title' => $result['event_title'],'event_type' => $result['event_type'], 'event_date' => $result['event_date'],
@@ -134,7 +136,7 @@ class artistController extends Controller {
                 'event_ticket_uri' => $result['event_ticket_uri'], 'venue_id' => $result['venue_id'], 'venue_org_id' => $result['venue_org_id'],
                 'venue_name' => $result['venue_name'], 'venue_address' => $result['venue_address'], 'venue_city' => $result['venue_city'],
                 'venue_latlng' => $result['venue_latlng'], 'venue_map' => $result['venue_map'],'venue_map_image' => $result['venue_map_image'],);
-        }
-        $this->outputJSON("All available for Songkick artist ID $id", $artists);
+        }*/
+        $this->outputJSON("All available for Songkick artist ID $id", $res);
     }
 }
